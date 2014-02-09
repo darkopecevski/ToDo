@@ -1,0 +1,77 @@
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li class="active"><a ng-href="/todo">Todo</a></li>
+    <li><a ng-href="#">Contact</a></li>
+  </ul>
+  <h3 class="text-muted">ToDo</h3>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body text-center">
+        <div class="btn-group" ng-cloak>
+            <button type="button" class="btn btn-default ng-class: {active: !isChecklist}" ng-click="toggleChecklist(false)">
+                <span class="glyphicon glyphicon-edit"></span> Text Note
+            </button>
+            <button type="button" class="btn btn-default ng-class: {active: isChecklist}" ng-click="toggleChecklist(true)">
+                <span class="glyphicon glyphicon-check"></span> Check List
+            </button>
+        </div>
+        <div class="row text-center pad20top" ng-cloak ng-show="isChecklist">
+            <div class="col-xs-6 col-md-8 col-md-offset-2">
+                <form id="form-todo" ng-submit="addTodo()">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
+                        <input type="text" ng-model="todoItem" id="todo-item" class="form-control" placeholder="What needs to be done!" autofocus>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row text-center pad20top" ng-cloak ng-show="!isChecklist">
+            <div class="col-xs-6 col-md-8 col-md-offset-2">
+                <form id="form-todo-note" ng-submit="addTodo()">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-check"></span></span>
+                        <textarea ng-model="todoItem" id="todo-item-note" class="form-control" placeholder="Add text note!" autofocus></textarea>
+                        <span class="input-group-btn"><button class="btn btn-default" type="button" ng-click="addTodo()">Add</button></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row text-left">
+            <div class="col-xs-6 col-md-8 col-md-offset-2">
+                <ul class="list-group mar10bottom" ng-show="todos.length">
+                    <li class="list-group-item ng-class: {bgSuccess: todo.done}" ng-repeat="todo in todos | filter: todoFilter track by $index">
+                        <input type="checkbox" class="glyphicon glyphicon-ok noCheckbox ng-class: {green: todo.done}" ng-model="todo.done"/>
+                        <span class="pad10horizontal ng-class: {strikeTrough: todo.done}">{{todo.title}}</span>
+                        <button class="pull-right btnFix mar4top" ng-click="removeTodo(todo)"><span class="glyphicon glyphicon-remove lightGray"></span></button>
+                    </li>
+                    <li class="list-group-item pad4horizontal pad2vertical bg-lighterGray">
+                        <div class="row text-left">
+                            <div class="col-md-3 text-left"><span class="gray"><b>{{activeTodos}}</b> Items left</span></div>
+                            <div class="col-md-5">
+                                <ul class="list-inline text-center">
+                                    <li><a href="#/todo" ng-class="{linkActive: todoStatus == ''}">All</a></li>
+                                    <li><a href="#/todo/active" ng-class="{linkActive: todoStatus == 'active'}">Active</a></li>
+                                    <li><a href="#/todo/done" ng-class="{linkActive: todoStatus == 'done'}">Done</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4 text-right" ng-show="doneTodos"><button type="button" class="btn btn-default btn-xs" ng-click="clearDone()"><span class="gray">Clear done ({{doneTodos}})</span></button></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="todos.length">
+            <div class="col-xs-6 col-md-8 col-md-offset-2">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-save"></span> Save</button>
+                    <button type="button" class="btn btn-default" ng-click="deleteTodos()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="footer text-center">
+  <p>ToDo List - powered by DP</p>
+</div>
